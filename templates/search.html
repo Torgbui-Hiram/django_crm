@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>SEARCHED RECORD</h1>
+    {% for item in searched %}
+    {% if item %}
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="table-responsive table--no-card m-b-40">
+                <table class="table table-borderless table-striped table-earning">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{item.name}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <h5>Sorry no record found</h5>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endblock %}
