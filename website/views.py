@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . models import TodoList, Managers, Products, Departments, Profile
 from django.contrib import messages
 import datetime
-from .forms import TodoForm, SearchForm
+from .forms import TodoForm, SearchForm, AddProductForm, AddManagerForm, AddDepartmentForm
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from member.models import CustomUser
@@ -123,3 +123,43 @@ def send_message(request, room_id):
                 room=room, user=request.user, content=content)
             return JsonResponse({'success': True})
     return JsonResponse({'success': False})
+
+
+# Adding products from website
+def add_product(request):
+    form = AddProductForm()
+    if request.method == "POST":
+        form = AddProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product added')
+        redirect('add-product')
+        messages.success(request, 'Something is wrong with your form')
+    return render(request, 'product.html', {'form': form})
+
+
+# Adding managers from website
+def add_managers(request):
+    form = AddManagerForm()
+    if request.method == "POST":
+        form = AddManagerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Manager added')
+        else:
+            redirect('home')
+            messages.success(request, 'Something is wrong with your form')
+    return render(request, 'add_manager.html', {'form': form})
+
+
+# Adding dpartment from website
+def add_department(request):
+    form = AddDepartmentForm()
+    if request.method == "POST":
+        form = AddDepartmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            return redirect('department')
+    return render(request, 'add_department.html', {'form': form})

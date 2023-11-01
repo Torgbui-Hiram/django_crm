@@ -21,9 +21,9 @@ class TodoList(models.Model):
 
 
 class Departments(models.Model):
-    name = models.CharField(max_length=50, blank=True, null=True, default='')
+    name = models.CharField(max_length=50)
     duties = models.CharField(
-        max_length=500, blank=True, null=True, default='')
+        max_length=500, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -33,13 +33,13 @@ class Managers(models.Model):
     all_titles = [('MR', 'Mr'), ('MAD', 'MADAM'), ('MSS', 'Miss')]
     title = models.CharField(choices=all_titles, default=1, max_length=10)
     first_name = models.CharField(
-        max_length=50, blank=True, null=True, default='')
+        max_length=50, blank=True, null=True)
     last_name = models.CharField(
-        max_length=50, blank=True, null=True, default='')
+        max_length=50, blank=True, null=True)
     department = models.ForeignKey(
-        Departments, on_delete=models.CASCADE, default='', blank=True, null=True)
+        Departments, on_delete=models.CASCADE)
     position = models.CharField(
-        max_length=50, blank=True, null=True, default='')
+        max_length=50, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -47,16 +47,19 @@ class Managers(models.Model):
 
 
 class Products(models.Model):
-    name = models.CharField(max_length=50, blank=True, null=True, default='')
+    name = models.CharField(max_length=50)
     details = models.CharField(
         max_length=500, blank=True, null=True, default='')
     price = models.DecimalField(
-        max_digits=5, decimal_places=2, default='', null=True, blank=True)
-    authorise_by = models.ForeignKey(Managers, on_delete=models.CASCADE)
+        max_digits=5, decimal_places=2, default='')
+    authorise_by = models.ForeignKey(
+        Managers, on_delete=models.CASCADE, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+        
 
 
 class Profile(models.Model):
@@ -80,5 +83,3 @@ def create_profile(sender, instance, created, **kwargs):
 
 
 post_save.connect(create_profile, sender=User)
-
-
