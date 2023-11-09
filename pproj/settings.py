@@ -34,8 +34,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels',
-    'twilio',
     # new installed apps
     'website.apps.WebsiteConfig',
     'member.apps.MemberConfig',
@@ -82,13 +80,28 @@ AUTH_USER_MODEL = 'member.CustomUser'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+NAME = config("NAME", cast=str)
+PORT = config("PORT", cast=str)
+PASSWORD = config("PASSWORD", cast=str)
+ENGINE = config("ENGINE", cast=str)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': f'{ENGINE}',
+        'NAME': f'{NAME}',
+        'USER': 'hiram',
+        'PASSWORD': f'{PASSWORD}',
+        'HOST': 'db',
+        'PORT': f'{PORT}',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
